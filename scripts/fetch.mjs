@@ -152,7 +152,7 @@ async function fromProductHunt() {
       const link = p.productLinks?.find(l => /github/i.test(l.type));
       if (!link) continue;
       const postUrl = p.url.split('?')[0];
-      const repo = cache[postUrl] || repoFrom(await resolveRedirect(link.url));
+      const repo = cache[postUrl] || repoFrom(await resolveRedirect(link.url)) || await repoByName(p.name);
       if (!repo) continue;
       cache[postUrl] = repo;
       out.push({ repo, ph: { name: p.name, tagline: p.tagline, votes: p.votesCount, date: p.createdAt.slice(0, 10), url: postUrl } });
@@ -163,6 +163,18 @@ async function fromProductHunt() {
   await writeFile(PH_CACHE, JSON.stringify(cache, null, 1));
   console.log(`ph: ${out.length} repo launches`);
   return out;
+}
+
+// Fallback when the redirect is blocked: the only recently created repo whose
+// name matches the product name once punctuation and case are stripped.
+// Tested against known pairs: ~1 in 6 recovered, none wrong.
+const norm = s => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+async function repoByName(name) {
+  const q = encodeURIComponent(`${name} in:name fork:false created:>=${day(daysAgo(180))}`);
+  const res = await gh(`/search/repositories?q=${q}&sort=stars&order=desc&per_page=20`);
+  await sleep(2200);
+  const matches = (res?.items || []).filter(r => norm(r.name) === norm(name));
+  return matches.length === 1 && matches[0].stargazers_count >= 10 ? matches[0].full_name : null;
 }
 
 async function fromSubmissions() {
