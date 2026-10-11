@@ -1,39 +1,38 @@
-/* Hallmark · genre: atmospheric · theme: Midnight paper + portal-amber accent · axes: dark / geometric-sans / warm */
+/* Hallmark · genre: modern-minimal · theme: custom
+ * vibe: "clean white index, violet portal" · paper oklch(100% 0 0) · accent oklch(52% 0.24 295) violet
+ * fonts: Inter Tight (display) + Inter (body) + JetBrains Mono (figures)
+ * axes: light / geometric-sans / cool */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --color-paper:    oklch(14%  0.020 262);
-  --color-paper-2:  oklch(18%  0.022 262);
-  --color-paper-3:  oklch(23%  0.024 262);
-  --color-rule:     oklch(29%  0.022 262);
-  --color-rule-2:   oklch(42%  0.020 262);
-  --color-muted:    oklch(64%  0.016 262);
-  --color-ink-2:    oklch(84%  0.010 262);
-  --color-ink:      oklch(96%  0.006 80);
-  --color-accent:   oklch(80%  0.150 70);   /* portal amber */
-  --color-accent-2: oklch(67%  0.200 33);   /* portal coral */
-  --color-accent-ink: oklch(18% 0.04 60);   /* text on amber fills */
-  --color-bloom-1:  oklch(67%  0.200 33 / 0.16);
-  --color-bloom-2:  oklch(80%  0.150 70 / 0.10);
-  --color-focus:    oklch(80%  0.150 70);
-  --color-hn:       oklch(72%  0.170 50);
-  --color-ph:       oklch(68%  0.190 30);
-  --color-up:       oklch(80%  0.150 140);
-  --color-shadow:   oklch(6% 0.03 40 / 0.6);
+  --color-paper:    oklch(100% 0 0);
+  --color-paper-2:  oklch(98.2% 0 0);
+  --color-paper-3:  oklch(96% 0 0);
+  --color-rule:     oklch(92.5% 0 0);
+  --color-rule-2:   oklch(85% 0 0);
+  --color-muted:    oklch(55% 0 0);
+  --color-ink-2:    oklch(38% 0 0);
+  --color-ink:      oklch(17% 0 0);
+  --color-accent:   oklch(52% 0.24 295);
+  --color-accent-soft: oklch(96% 0.03 295);
+  --color-on-accent: oklch(100% 0 0);
+  --color-focus:    oklch(52% 0.24 295);
+  --color-hn:       oklch(58% 0.17 45);
+  --color-ph:       oklch(56% 0.19 30);
+  --color-nav-bg:   oklch(100% 0 0 / 0.82);
+  --color-shadow:   oklch(17% 0 0 / 0.08);
 
-  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-body:    "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-mono:    "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --text-xs:  0.75rem;
   --text-sm:  0.875rem;
   --text-md:  1rem;
-  --text-lg:  1.25rem;
-  --text-xl:  1.625rem;
-  --text-display-s: clamp(1.9rem, 3.2vw + 1rem, 3.4rem);
+  --text-lg:  1.125rem;
+  --text-display: clamp(2.5rem, 5vw + 0.5rem, 4.75rem);
 
   --tracking-display: -0.035em;
-  --tracking-label: 0.08em;
 
   --space-2xs: 0.25rem;
   --space-xs:  0.5rem;
@@ -42,12 +41,12 @@
   --space-lg:  1.5rem;
   --space-xl:  2.5rem;
   --space-2xl: 4rem;
-  --space-3xl: 6rem;
+  --space-3xl: 7rem;
   --page-gutter: clamp(1rem, 4vw, 3rem);
-  --page-max: 82rem;
+  --page-max: 72rem;
 
-  --radius-card: 16px;
-  --radius-input: 12px;
+  --radius-card: 8px;
+  --radius-input: 10px;
   --radius-pill: 999px;
   --rule-hair: 1px;
 
@@ -55,5 +54,5 @@
   --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-micro: 120ms;
-  --dur-base:  220ms;
+  --dur-base:  200ms;
 }

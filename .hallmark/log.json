@@ -1,1 +1,22 @@
-[{"date":"2026-10-11","macrostructure":"Ecosystem Index","theme":"Midnight + portal-amber","enrichment":"E5 hand-built SVG logo","nav":"N9","footer":"Ft5","brief":"OpenGate · public index of new open source projects"}]
+[
+ {
+  "date": "2026-10-11",
+  "macrostructure": "Index-First",
+  "theme": "custom",
+  "theme_axes": "light / geometric-sans / cool",
+  "vibe": "clean white index, violet portal",
+  "enrichment": "E5 hand-built SVG portal (violet)",
+  "nav": "N5",
+  "footer": "Ft2",
+  "brief": "OpenGate redesign \u00b7 white minimalist, purple portal"
+ },
+ {
+  "date": "2026-10-11",
+  "macrostructure": "Ecosystem Index",
+  "theme": "Midnight + portal-amber",
+  "enrichment": "E5 hand-built SVG logo",
+  "nav": "N9",
+  "footer": "Ft5",
+  "brief": "OpenGate \u00b7 public index of new open source projects"
+ }
+]
