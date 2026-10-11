@@ -1,0 +1,24 @@
+name: Submit a project
+description: Suggest a new open source project for OpenGate
+title: "Submit: "
+labels: [submission]
+body:
+  - type: input
+    id: repo
+    attributes:
+      label: GitHub repository URL
+      placeholder: https://github.com/owner/repo
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it's worth a look
+      description: One or two sentences. Optional.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: The project is open source and was released or launched in the last 30 days.
+          required: true

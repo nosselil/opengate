@@ -1,0 +1,61 @@
+name: Refresh and deploy
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # daily, 10:00 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+  issues:
+    types: [labeled]       # re-run when a submission gets the "approved" label
+
+permissions:
+  contents: write
+  issues: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'issues' || github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch projects
+        if: github.event_name != 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
+        run: node scripts/fetch.mjs
+
+      - name: Commit data
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "opengate-bot"
+          git config user.email "opengate-bot@users.noreply.github.com"
+          git add data/projects.json
+          git diff --cached --quiet || git commit -m "data: refresh $(date -u +%F)"
+          git push
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

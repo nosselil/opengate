@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGate · new open source, every day</title>
+  <meta name="description" content="A public index of open source projects released in the last 30 days. Pulled daily from GitHub, Show HN, Product Hunt and community submissions.">
+  <meta property="og:title" content="OpenGate">
+  <meta property="og:description" content="New open source projects worth a look, refreshed daily.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="./" aria-label="OpenGate home">
+      <img src="assets/logo.svg" alt="" width="36" height="36">
+      <span>OpenGate</span>
+    </a>
+    <a class="btn btn--ghost" href="https://github.com/nosselil/opengate/issues/new?template=submit.yml" target="_blank" rel="noopener">Submit a project</a>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>Every open source project worth a look, from the last 30 days.</h1>
+      <p class="intro__meta" id="meta">Loading the index…</p>
+      <label class="search">
+        <span class="visually-hidden">Search projects</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="m13.5 13.5 4 4"/></svg>
+        <input id="q" type="search" placeholder="Search name, topic, language" autocomplete="off" spellcheck="false">
+        <kbd>/</kbd>
+      </label>
+    </section>
+
+    <div id="rails"></div>
+
+    <section class="catalogue" aria-labelledby="cat-title">
+      <div class="catalogue__head">
+        <h2 id="cat-title">The whole index</h2>
+        <p class="catalogue__count" id="count" aria-live="polite"></p>
+      </div>
+      <div class="filters">
+        <div class="seg" role="radiogroup" aria-label="Sort by">
+          <button role="radio" data-sort="velocity" aria-checked="true">Rising</button>
+          <button role="radio" data-sort="stars" aria-checked="false">Most stars</button>
+          <button role="radio" data-sort="newest" aria-checked="false">Newest</button>
+        </div>
+        <label class="select">
+          <span class="visually-hidden">Source</span>
+          <select id="source">
+            <option value="">All sources</option>
+            <option value="github">GitHub</option>
+            <option value="hn">Show HN</option>
+            <option value="ph">Product Hunt</option>
+            <option value="submitted">Community</option>
+          </select>
+        </label>
+        <label class="select">
+          <span class="visually-hidden">Language</span>
+          <select id="lang"><option value="">All languages</option></select>
+        </label>
+      </div>
+      <ol class="grid" id="grid"></ol>
+      <p class="empty" id="empty" hidden>Nothing matches that. Try a broader word, or <a href="https://github.com/nosselil/opengate/issues/new?template=submit.yml" target="_blank" rel="noopener">submit the project</a> yourself.</p>
+      <button class="btn btn--ghost more" id="more" hidden>Show more</button>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p class="foot__line">The gate is open. Go build something with what came through it.</p>
+    <div class="foot__meta">
+      <span>OpenGate refreshes every morning from GitHub, Show HN and Product Hunt.</span>
+      <a href="https://github.com/nosselil/opengate" target="_blank" rel="noopener">Source on GitHub</a>
+    </div>
+  </footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
