@@ -108,12 +108,23 @@ async function fromHN() {
   return out;
 }
 
+const BROWSER_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36';
+let redirectFailures = 0;
 async function resolveRedirect(url) {
   try {
-    const res = await fetch(url, { redirect: 'manual' });
-    return res.headers.get('location');
-  } catch { return null; }
+    const res = await fetch(url, { redirect: 'manual', headers: { 'User-Agent': BROWSER_UA } });
+    const loc = res.headers.get('location');
+    if (!loc && redirectFailures++ === 0) console.warn(`ph: redirect not resolved (HTTP ${res.status})`);
+    return loc;
+  } catch (e) {
+    if (redirectFailures++ === 0) console.warn(`ph: redirect failed (${e.message})`);
+    return null;
+  }
 }
+
+// PH hides GitHub links behind redirects that can be blocked from CI, so
+// remember every resolved post -> repo pair.
+const PH_CACHE = new URL('../data/ph-links.json', import.meta.url);
 
 async function fromProductHunt() {
   if (!PH) { console.log('ph: no token, skipped'); return []; }
@@ -122,6 +133,7 @@ async function fromProductHunt() {
       pageInfo { hasNextPage endCursor }
       edges { node { name tagline votesCount createdAt url productLinks { type url } } }
     } }`;
+  const cache = JSON.parse(await readFile(PH_CACHE, 'utf8').catch(() => '{}'));
   const out = [];
   let after = null;
   for (let page = 0; page < 6; page++) {
@@ -139,12 +151,16 @@ async function fromProductHunt() {
       if (p.votesCount < PH_MIN_VOTES) { belowBar = true; continue; }
       const link = p.productLinks?.find(l => /github/i.test(l.type));
       if (!link) continue;
-      const repo = repoFrom(await resolveRedirect(link.url));
-      if (repo) out.push({ repo, ph: { name: p.name, tagline: p.tagline, votes: p.votesCount, date: p.createdAt.slice(0, 10), url: p.url.split('?')[0] } });
+      const postUrl = p.url.split('?')[0];
+      const repo = cache[postUrl] || repoFrom(await resolveRedirect(link.url));
+      if (!repo) continue;
+      cache[postUrl] = repo;
+      out.push({ repo, ph: { name: p.name, tagline: p.tagline, votes: p.votesCount, date: p.createdAt.slice(0, 10), url: postUrl } });
     }
     if (belowBar || !data.posts.pageInfo.hasNextPage) break;
     after = data.posts.pageInfo.endCursor;
   }
+  await writeFile(PH_CACHE, JSON.stringify(cache, null, 1));
   console.log(`ph: ${out.length} repo launches`);
   return out;
 }
